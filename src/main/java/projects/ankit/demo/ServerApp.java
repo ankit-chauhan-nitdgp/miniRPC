@@ -9,6 +9,7 @@ public class ServerApp {
         new Thread(() -> {
             try {
                 MethodRegistry registry = new MethodRegistry();
+                // auto-registering services through annotations
                 AutoRegistrar.registerAnnotatedServices(registry, "projects.ankit");
                 new RpcServer(9000, registry).start();
             } catch (Exception e) {
