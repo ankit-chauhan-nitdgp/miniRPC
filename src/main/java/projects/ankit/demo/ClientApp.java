@@ -7,7 +7,7 @@ import projects.ankit.client.RpcClient;
 public class ClientApp {
 
     public static void main(String[] args) throws Exception {
-        //takes input from console
+        //takes input from client through cli
         Scanner scanner = new Scanner(System.in);
         RpcClient client = new RpcClient("localhost", 9000);
 
