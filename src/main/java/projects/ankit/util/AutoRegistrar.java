@@ -1,5 +1,6 @@
-package projects.ankit.annotationprocessor;
+package projects.ankit.util;
 
+import projects.ankit.annotationprocessor.AnnotationScanner;
 import projects.ankit.core.MethodRegistry;
 import projects.ankit.services.RpcService;
 

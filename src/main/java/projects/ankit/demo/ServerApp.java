@@ -1,6 +1,6 @@
 package projects.ankit.demo;
 
-import projects.ankit.annotationprocessor.AutoRegistrar;
+import projects.ankit.util.AutoRegistrar;
 import projects.ankit.core.MethodRegistry;
 import projects.ankit.server.RpcServer;
 
