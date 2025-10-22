@@ -1,8 +1,9 @@
-package projects.ankit.demo;
+package projects.ankit.demoSimpleRpc;
 
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 import projects.ankit.client.RpcClient;
+import projects.ankit.constants.Ports;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,15 +24,13 @@ public class RpcHttpBridge {
             int a = Integer.parseInt(params[0].split("=")[1]);
             int b = Integer.parseInt(params[1].split("=")[1]);
 
-            RpcClient client = new RpcClient("localhost", 9000);
-            client.call("CalculatorService", "add", new RpcClient.ResultListener() {
-                @Override
-                public void result(Object res) throws IOException {
-                    byte[] response = ("Result: " + res).getBytes();
-                    exchange.sendResponseHeaders(200, response.length);
-                    try (OutputStream os = exchange.getResponseBody()) {
-                        os.write(response);
-                    }
+            RpcClient client = new RpcClient(Ports.host, Ports.RequestResponsePort);
+
+            client.call("CalculatorService", "add", res -> {
+                byte[] response = ("Result: " + res).getBytes();
+                exchange.sendResponseHeaders(200, response.length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response);
                 }
             }, a, b);
 

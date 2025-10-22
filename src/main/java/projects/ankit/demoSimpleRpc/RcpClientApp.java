@@ -1,14 +1,17 @@
-package projects.ankit.demo;
+package projects.ankit.demoSimpleRpc;
 
 import java.util.Scanner;
 import projects.ankit.client.RpcClient;
+import projects.ankit.constants.Ports;
+
 
 public class RcpClientApp {
 
     public static void main(String[] args) throws Exception {
+
         //takes input through cli
         Scanner scanner = new Scanner(System.in);
-        RpcClient client = new RpcClient("localhost", 9000);
+        RpcClient client = new RpcClient(Ports.host, Ports.RequestResponsePort);
 
         while (true) {
             System.out.print("Enter two numbers (or 'exit' to quit): ");

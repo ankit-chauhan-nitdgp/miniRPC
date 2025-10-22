@@ -1,5 +1,8 @@
 package projects.ankit.services;
 
-public interface CalculatorService {
-    int add(int a, int b);
+@RpcService(name = "CalculatorService")
+public class CalculatorService {
+    public int add(int a, int b) {
+        return a + b;
+    }
 }

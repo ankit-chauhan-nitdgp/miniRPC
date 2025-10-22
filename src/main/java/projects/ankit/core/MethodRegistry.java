@@ -11,6 +11,13 @@ public class MethodRegistry {
     }
 
     public Object invoke(Request req) throws Exception {
+
+        /*
+        * 1. separate service # method
+        * 2. call method within the service
+        * 3. return result
+        */
+
         String method = req.getMethodName();
         String[] parts = method.split("#");
         if (parts.length != 2) throw new IllegalArgumentException("Invalid method format: " + method);

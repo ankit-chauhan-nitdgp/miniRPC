@@ -37,4 +37,22 @@ public class ProtocolHandler {
         dis.readFully(data);
         return (Response) Serializer.deserialize(data);
     }
+
+    public static void sendFrame(Socket socket, Frame frame) throws IOException {
+        byte[] bytes = Serializer.serialize(frame);
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        dos.writeInt(bytes.length);
+        dos.write(bytes);
+        dos.flush();
+    }
+
+    public static Frame readFrame(Socket socket)
+            throws IOException, ClassNotFoundException {
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        int len = dis.readInt();
+        byte[] buf = new byte[len];
+        dis.readFully(buf);
+        return (Frame) Serializer.deserialize(buf);
+    }
+
 }
