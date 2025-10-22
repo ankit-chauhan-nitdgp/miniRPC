@@ -24,13 +24,17 @@ public class RpcHttpBridge {
             int b = Integer.parseInt(params[1].split("=")[1]);
 
             RpcClient client = new RpcClient("localhost", 9000);
-            Object result = client.call("CalculatorService", "add", a, b);
+            client.call("CalculatorService", "add", new RpcClient.ResultListener() {
+                @Override
+                public void result(Object res) throws IOException {
+                    byte[] response = ("Result: " + res).getBytes();
+                    exchange.sendResponseHeaders(200, response.length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response);
+                    }
+                }
+            }, a, b);
 
-            byte[] response = ("Result: " + result).getBytes();
-            exchange.sendResponseHeaders(200, response.length);
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(response);
-            }
         } catch (Exception e) {
             byte[] err = ("Error: " + e.getMessage()).getBytes();
             exchange.sendResponseHeaders(500, err.length);

@@ -16,16 +16,25 @@ public class RpcClient {
         this.port = port;
     }
 
-    public Object call(String service, String method, Object... params) {
+    public interface ResultListener{
+        void result(Object res) throws IOException;
+    }
+
+    public void call(String service, String method, ResultListener listener,Object... params) {
+
         int id = counter.incrementAndGet();
         Request req = new Request(id, service + "#" + method, params);
+
         try (Socket socket = new Socket(host, port)) {
+
             ProtocolHandler.sendRequest(socket, req);
             Response res = ProtocolHandler.readResponse(socket);
             if (res.getStatusCode() != 0) throw new RuntimeException((String) res.getResult());
-            return res.getResult();
+            listener.result(res.getResult());
+
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

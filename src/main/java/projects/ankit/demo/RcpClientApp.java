@@ -1,10 +1,9 @@
 package projects.ankit.demo;
 
-import java.io.IOException;
 import java.util.Scanner;
 import projects.ankit.client.RpcClient;
 
-public class ClientApp {
+public class RcpClientApp {
 
     public static void main(String[] args) throws Exception {
         //takes input through cli
@@ -26,8 +25,10 @@ public class ClientApp {
                 int a = Integer.parseInt(parts[0]);
                 int b = Integer.parseInt(parts[1]);
                 try {
-                    Object result = client.call("CalculatorService", "add", a, b);
-                    System.out.println("Result: " + result);
+                    client.call("CalculatorService", "add",
+                            res -> System.out.println("Result: " + res) // update value using callback
+                            ,a, b);
+
                 }catch (RuntimeException e){
                     System.out.println("Cannot connect to server: Connection Refused");
                 }
@@ -40,4 +41,5 @@ public class ClientApp {
         System.out.println("Client closed.");
         scanner.close();
     }
+
 }
